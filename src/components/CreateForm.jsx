@@ -56,95 +56,91 @@ export default function CreateForm() {
   };
 
   return (
-    <div className="row">
-      <div className="col-md-5">
-        <div className="card card-body">
-          <h3 className="text-center">Agregar comida</h3>
-          <form onSubmit={guardarProduct}>
-            <label>Nombre:</label>
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="ingresar el nombre de la comida"
-                id="nombre"
-                className="form-control mt-1"
-                required
-              />
-            </div>
-            <label className="form-label mt-3">Precio:</label>
-            <div className="form-group">
-              <input
-                type="number"
-                placeholder="ingresar precio de la comida"
-                id="precio"
-                className="form-control"
-                required
-              />
-            </div>
-
-            <label className="form-label mt-3">Agregar Imagen:</label>
+    <div>
+      <div className="card card-body">
+        <h3 className="text-center">Agregar comida</h3>
+        <form onSubmit={guardarProduct}>
+          <label>Nombre:</label>
+          <div className="form-group">
             <input
-              type="file"
-              name=""
-              id="file"
-              placeholder="Agregar la imagen"
-              className="form-control"
-              onChange={fileHandler}
+              type="text"
+              placeholder="ingresar el nombre de la comida"
+              id="nombre"
+              className="form-control mt-1"
               required
             />
+          </div>
+          <label className="form-label mt-3">Precio:</label>
+          <div className="form-group">
+            <input
+              type="number"
+              placeholder="ingresar precio de la comida"
+              id="precio"
+              className="form-control"
+              required
+            />
+          </div>
 
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-              className={
-                habilitar
-                  ? "btn btn-primary mt-3 form-control"
-                  : "btn btn-primary mt-3 form-control disabled"
-              }
-            >
-              {habilitar ? "Guardar Producto" : "Llena los campos"}
-            </button>
-          </form>
-        </div>
-        {/* <!-- Modal --> */}
-        <div
-          className="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabIndex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                  Ventana de alerta
-                </h1>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">Producto guardado correctamente</div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  Aceptar
-                </button>
-              </div>
+          <label className="form-label mt-3">Agregar Imagen:</label>
+          <input
+            type="file"
+            name=""
+            id="file"
+            placeholder="Agregar la imagen"
+            className="form-control"
+            onChange={fileHandler}
+            required
+          />
+
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            className={
+              habilitar
+                ? "btn btn-primary mt-3 form-control"
+                : "btn btn-primary mt-3 form-control disabled"
+            }
+          >
+            {habilitar ? "Guardar Producto" : "Llena los campos"}
+          </button>
+        </form>
+      </div>
+      {/* <!-- Modal --> */}
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                Ventana de alerta
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">Producto guardado correctamente</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                Aceptar
+              </button>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="col-md-7">tabla de productos</div>
     </div>
   );
 }
