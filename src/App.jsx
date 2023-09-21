@@ -7,12 +7,14 @@ import CrearProducto from "./pages/CrearProducto";
 import Ventas from "./pages/Ventas";
 
 import { AuthProvider } from "./context/AuthContext";
+import {StoreProvider} from './context/StoreContext'
 //import Navbar from "./components/Navbar";
 
 
 function App() {
   return (
     <AuthProvider>
+      <StoreProvider>
       <BrowserRouter>
         <main className="container">
           
@@ -32,6 +34,7 @@ function App() {
         </main>
         
       </BrowserRouter>
+      </StoreProvider>
     </AuthProvider>
   );
 }
