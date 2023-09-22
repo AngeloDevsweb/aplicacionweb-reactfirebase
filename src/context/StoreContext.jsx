@@ -13,22 +13,13 @@ export const Store = createContext();
 function reducer(state, action){
     switch (action.type) {
         case 'ADD_TO_CART': {
-            const newItem = action.payload;
-            const existItemIndex = state.cart.cartItems.findIndex(
-              (item) => item.id === newItem.id
-            );
+            const newItem = action.payload 
+            const existItem = state.cart.cartItems.find(item => item.id ===  newItem.id)
 
-            if (existItemIndex !== -1) {
-              // Si el artículo ya existe en el carrito, simplemente actualiza la cantidad
-              const cartItems = [...state.cart.cartItems];
-              cartItems[existItemIndex].quantity = newItem.quantity;
+            const cartItems = existItem ? state.cart.cartItems.map((item)=> item.nombre === existItem.nombre ? newItem: item )
+            : [...state.cart.cartItems, newItem]
 
-              return { ...state, cart: { ...state.cart, cartItems } };
-            } else {
-              // Si el artículo no existe en el carrito, agrégalo
-              const cartItems = [...state.cart.cartItems, newItem];
-              return { ...state, cart: { ...state.cart, cartItems } };
-            }
+            return {...state, cart:{...state.cart,cartItems}}
         }
         
         
