@@ -10,6 +10,8 @@ export default function Ventas() {
   const [ventas, setVentas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Cambia este valor según tus preferencias
+  const [searchDate, setSearchDate] = useState(''); //variable para guardar fecha para filtro por fecha
+  const [originalVentas, setOriginalVentas] = useState([]); // Mantén una copia de las ventas originales
 
   // Declarar las constantes para la paginación
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -24,6 +26,36 @@ export default function Ventas() {
   for (let i = 1; i <= Math.ceil(ventas.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  // funcion para buscar fecha y filtrar datos por fecha
+  const handleSearch = () => {
+    console.log('boton clicado');
+    const lowerCaseSearchDate = searchDate.toLowerCase();
+    console.log("Filtrando ventas por fecha:", lowerCaseSearchDate);
+
+    // Filtrar ventas en base a la fecha de búsqueda
+  const ventasFiltradas = originalVentas.filter((venta) => {
+    const fecha = venta.fecha;
+    
+    // Verificar que la fecha no sea undefined antes de llamar a toLocaleDateString
+    if (fecha) {
+      const formattedDate = fecha.toLocaleDateString().toLowerCase();
+      return formattedDate.includes(lowerCaseSearchDate);
+    }
+    
+    return false;
+  });
+
+  setVentas(ventasFiltradas);
+  setCurrentPage(1);
+  };
+
+   // Restablece las ventas originales cuando se borra la fecha de búsqueda
+   const handleClearSearch = () => {
+    setSearchDate('');
+    setVentas(originalVentas);
+    setCurrentPage(1);
+  };
 
   useEffect(() => {
     const obtenerVentas = async () => {
@@ -56,6 +88,7 @@ export default function Ventas() {
         });
 
         setVentas(ventasData);
+        setOriginalVentas(ventasData); // Guarda una copia de las ventas originales
       } catch (error) {
         console.error("Error al obtener las ventas:", error);
       }
@@ -68,6 +101,16 @@ export default function Ventas() {
     <div>
       <Navbar/>
       <h1>Lista de Ventas</h1>
+      <input
+        type="text"
+        className=''
+        placeholder="Buscar por fecha (ej. '22 de septiembre de 2023')"
+        value={searchDate}
+        onChange={(e) => {setSearchDate(e.target.value);console.log("Valor de búsqueda cambiado:", e.target.value);}}
+        
+      />
+      <button className='btn btn-primary' onClick={handleSearch}>Buscar</button>
+      <button onClick={handleClearSearch}>Limpiar búsqueda</button>
       <table className='table table-hover table-bordered'>
         <thead>
           <tr>
