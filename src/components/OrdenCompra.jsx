@@ -12,7 +12,7 @@ export default function OrdenCompra() {
   const {
     cart: { cartItems },
   } = state;
-
+  //variables
   const subtotal = cartItems.reduce((a, c) => a + c.quantity * c.precio, 0);
   const productTotal = cartItems;
   const fecha = new Date();
@@ -51,18 +51,14 @@ export default function OrdenCompra() {
         head:[columns],
         body: data
     })
-
     //si quiero mostrar debajo un subtotal
     doc.text(`Total: ${subtotal}$`, 30, 100)
       // Obtener los datos del PDF como Blob
       const pdfData = doc.output('blob');
-
       // Crear una URL para el Blob
       const pdfUrl = URL.createObjectURL(pdfData);
-
       //guardar el pdf con un nombre especifico
-      doc.save(`factura_${formatDate}.pdf`)
-  
+      doc.save(`factura_${formatDate}.pdf`) 
            // Abrir el PDF en una nueva ventana
       window.open(pdfUrl, '_blank');
   }
