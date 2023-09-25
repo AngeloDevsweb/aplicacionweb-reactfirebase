@@ -8,6 +8,22 @@ const db = getFirestore(appFirebase);
 export default function Ventas() {
 
   const [ventas, setVentas] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Cambia este valor según tus preferencias
+
+  // Declarar las constantes para la paginación
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentVentas = ventas.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(ventas.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
 
   useEffect(() => {
     const obtenerVentas = async () => {
@@ -47,9 +63,7 @@ export default function Ventas() {
 
     obtenerVentas();
   }, []);
-
-  console.log(ventas);
-
+  //console.log(ventas);
   return (
     <div>
       <Navbar/>
@@ -66,7 +80,7 @@ export default function Ventas() {
           </tr>
         </thead>
         <tbody>
-          {ventas.map((venta, index) => (
+          {currentVentas.map((venta, index) => (
             <tr key={venta.id}>
               <td>{index + 1}</td>
               <td>
@@ -83,7 +97,7 @@ export default function Ventas() {
                 <ul>
                   {venta.productos.map((producto) => (
                     <li key={producto.id}  style={{listStyleType: "none", marginBottom:'15px'}}>
-                      {producto.precio}
+                      {producto.precio}$
                     </li>
                   ))}
                 </ul>
@@ -105,6 +119,37 @@ export default function Ventas() {
           ))}
         </tbody>
       </table>
+      {/* seccion de html para la paginacion */}
+      <ul className="pagination">
+      <li className="page-item">
+        <button
+          className="page-link"
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Anterior
+        </button>
+      </li>
+      {pageNumbers.map((number) => (
+        <li key={number} className="page-item">
+          <button
+            className={`page-link ${number === currentPage ? 'active' : ''}`}
+            onClick={() => paginate(number)}
+          >
+            {number}
+          </button>
+        </li>
+      ))}
+      <li className="page-item">
+        <button
+          className="page-link"
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === Math.ceil(ventas.length / itemsPerPage)}
+        >
+          Siguiente
+        </button>
+      </li>
+    </ul>
 
      </div>
   )
