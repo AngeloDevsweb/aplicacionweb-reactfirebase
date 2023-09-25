@@ -28,10 +28,13 @@ export default function Ventas() {
             }
           }
 
+            // Convertir la marca de tiempo de Firestore en una fecha JavaScript
+            const fecha = ventaData.fecha && ventaData.fecha.toDate();
+
           ventasData.push({
             productos,
             subtotal: ventaData.subtotal,
-            fecha: ventaData.fecha,
+            fecha,
             id: doc.id,
           });
         });
@@ -51,14 +54,14 @@ export default function Ventas() {
     <div>
       <Navbar/>
       <h1>Lista de Ventas</h1>
-      <ul>
-        {ventas.map((venta, index) => (
-          <li key={index}>
+      <ul className='row row-cols-1 row-cols-md-3 g-3'>
+      {ventas.map((venta, index) => (
+          <li key={venta.id} className='card card-body'>
             <h2>Venta #{index + 1}</h2>
             <ul>
-              {venta.productos.map((producto, prodIndex) => (
-                <li key={prodIndex}>
-                  <img src={producto.imagen} alt={producto.nombre} width={100} height={100} />
+              {venta.productos.map((producto) => (
+                <li key={producto.id}>
+                  {/* <img src={producto.imagen} alt={producto.nombre} /> */}
                   <h3>{producto.nombre}</h3>
                   <p>Precio: {producto.precio}</p>
                   <p>Cantidad: {producto.quantity}</p>
@@ -66,7 +69,9 @@ export default function Ventas() {
               ))}
             </ul>
             <p>Subtotal: {venta.subtotal}</p>
-            {/* <p>Fecha: {venta.fecha}</p> */}
+            {venta.fecha && (
+              <p>Fecha: {venta.fecha.toLocaleString()}</p>
+            )}
           </li>
         ))}
       </ul>
