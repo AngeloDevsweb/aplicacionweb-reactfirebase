@@ -12,6 +12,7 @@ const db = getFirestore(appFirebase);
 
 export default function ListaProducts() {
   const [lista, setLista] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Inicialmente, se establece en true para mostrar el spinner de carga
 
   const eliminarProducto = async (id) => {
     // Mostrar la ventana modal
@@ -47,6 +48,8 @@ export default function ListaProducts() {
         setLista(docs);
       } catch (error) {
         console.log(error);
+      }finally {
+        setIsLoading(false);
       }
     };
     getLista();
@@ -71,23 +74,30 @@ export default function ListaProducts() {
           </tr>
         </thead>
         <tbody>
-          {lista.map((list) => (
-            <tr key={list.id}>
-              <td>{list.nombre}</td>
-              <td>{list.precio}Bs.</td>
-              <td>
-                <img height={50} width={50} src={list.imagen} />
-              </td>
-              <td>
-                <button
-                  onClick={() => eliminarProducto(list.id)}
-                  className="btn btn-danger"
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {isLoading ? (
+              <div className="spinner2"></div>
+          ) : (
+            <>
+              {lista.map((list) => (
+                <tr key={list.id}>
+                  <td>{list.nombre}</td>
+                  <td>{list.precio}Bs.</td>
+                  <td>
+                    <img height={50} width={50} src={list.imagen} />
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => eliminarProducto(list.id)}
+                      className="btn btn-danger"
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+            </>
+          )}
         </tbody>
       </table>
     </div>

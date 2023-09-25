@@ -52,7 +52,7 @@ export default function OrdenCompra() {
         body: data
     })
     //si quiero mostrar debajo un subtotal
-    doc.text(`Total: ${subtotal}$`, 30, 100)
+    doc.text(`Total: ${subtotal}$`, 22, 95)
       // Obtener los datos del PDF como Blob
       const pdfData = doc.output('blob');
       // Crear una URL para el Blob

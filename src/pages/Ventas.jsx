@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import appFirebase from "../credenciales";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
@@ -6,12 +6,12 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 const db = getFirestore(appFirebase);
 
 export default function Ventas() {
-
   const [ventas, setVentas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Cambia este valor según tus preferencias
-  const [searchDate, setSearchDate] = useState(''); //variable para guardar fecha para filtro por fecha
+  const [searchDate, setSearchDate] = useState(""); //variable para guardar fecha para filtro por fecha
   const [originalVentas, setOriginalVentas] = useState([]); // Mantén una copia de las ventas originales
+  const [isLoading, setIsLoading] = useState(true); // Inicialmente, se establece en true para mostrar el spinner de carga.
 
   // Declarar las constantes para la paginación
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -21,7 +21,7 @@ export default function Ventas() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  
+
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(ventas.length / itemsPerPage); i++) {
     pageNumbers.push(i);
@@ -29,36 +29,37 @@ export default function Ventas() {
 
   // funcion para buscar fecha y filtrar datos por fecha
   const handleSearch = () => {
-    console.log('boton clicado');
+    //console.log('boton clicado');
     const lowerCaseSearchDate = searchDate.toLowerCase();
-    console.log("Filtrando ventas por fecha:", lowerCaseSearchDate);
+    //console.log("Filtrando ventas por fecha:", lowerCaseSearchDate);
 
     // Filtrar ventas en base a la fecha de búsqueda
-  const ventasFiltradas = originalVentas.filter((venta) => {
-    const fecha = venta.fecha;
-    
-    // Verificar que la fecha no sea undefined antes de llamar a toLocaleDateString
-    if (fecha) {
-      const formattedDate = fecha.toLocaleDateString().toLowerCase();
-      return formattedDate.includes(lowerCaseSearchDate);
-    }
-    
-    return false;
-  });
+    const ventasFiltradas = originalVentas.filter((venta) => {
+      const fecha = venta.fecha;
 
-  setVentas(ventasFiltradas);
-  setCurrentPage(1);
+      // Verificar que la fecha no sea undefined antes de llamar a toLocaleDateString
+      if (fecha) {
+        const formattedDate = fecha.toLocaleDateString().toLowerCase();
+        return formattedDate.includes(lowerCaseSearchDate);
+      }
+
+      return false;
+    });
+
+    setVentas(ventasFiltradas);
+    setCurrentPage(1);
   };
 
-   // Restablece las ventas originales cuando se borra la fecha de búsqueda
-   const handleClearSearch = () => {
-    setSearchDate('');
+  // Restablece las ventas originales cuando se borra la fecha de búsqueda
+  const handleClearSearch = () => {
+    setSearchDate("");
     setVentas(originalVentas);
     setCurrentPage(1);
   };
 
   useEffect(() => {
     const obtenerVentas = async () => {
+      setIsLoading(true); // Establecer isLoading en true antes de cargar los datos
       try {
         const querySnapshot = await getDocs(collection(db, "ventas"));
         const ventasData = [];
@@ -68,7 +69,7 @@ export default function Ventas() {
 
           // Iterar sobre el objeto de productos
           for (const key in ventaData) {
-            if (key !== 'subtotal' && key !== 'fecha') {
+            if (key !== "subtotal" && key !== "fecha") {
               productos.push({
                 ...ventaData[key],
                 id: key,
@@ -76,8 +77,8 @@ export default function Ventas() {
             }
           }
 
-            // Convertir la marca de tiempo de Firestore en una fecha JavaScript
-            const fecha = ventaData.fecha && ventaData.fecha.toDate();
+          // Convertir la marca de tiempo de Firestore en una fecha JavaScript
+          const fecha = ventaData.fecha && ventaData.fecha.toDate();
 
           ventasData.push({
             productos,
@@ -91,6 +92,8 @@ export default function Ventas() {
         setOriginalVentas(ventasData); // Guarda una copia de las ventas originales
       } catch (error) {
         console.error("Error al obtener las ventas:", error);
+      } finally {
+        setIsLoading(false); // Establecer isLoading en false después de cargar los datos
       }
     };
 
@@ -99,101 +102,122 @@ export default function Ventas() {
   //console.log(ventas);
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <h1>Lista de Ventas</h1>
       <input
         type="text"
-        className=''
-        placeholder="Buscar por fecha (ej. '22 de septiembre de 2023')"
+        className=""
+        placeholder="Buscar fecha (ej.'25/9/2023')"
         value={searchDate}
-        onChange={(e) => {setSearchDate(e.target.value);console.log("Valor de búsqueda cambiado:", e.target.value);}}
-        
+        onChange={(e) => {
+          setSearchDate(e.target.value);
+        }}
       />
-      <button className='btn btn-primary' onClick={handleSearch}>Buscar</button>
-      <button onClick={handleClearSearch}>Limpiar búsqueda</button>
-      <table className='table table-hover table-bordered'>
-        <thead>
-          <tr>
-            <th scope="col">Venta #</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Total</th>
-            <th scope="col" >Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentVentas.map((venta, index) => (
-            <tr key={venta.id}>
-              <td>{index + 1}</td>
-              <td>
-                <ul>
-                  {venta.productos.map((producto) => (
-                    <li key={producto.id} style={{listStyleType: "none"}}>
-                      {/* <img src={producto.imagen} alt={producto.nombre} /> */}
-                      <p>{producto.nombre}</p>
-                    </li>
-                  ))}
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  {venta.productos.map((producto) => (
-                    <li key={producto.id}  style={{listStyleType: "none", marginBottom:'15px'}}>
-                      {producto.precio}$
-                    </li>
-                  ))}
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  {venta.productos.map((producto) => (
-                    <li key={producto.id} style={{listStyleType: "none", marginBottom:'15px'}}>
-                      {producto.quantity}
-                    </li>
-                  ))}
-                </ul>
-              </td>
-              <td>{venta.subtotal}$</td>
-              <td>
-                {venta.fecha && venta.fecha.toLocaleString()}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <button className="btn btn-primary" onClick={handleSearch}>
+        Buscar
+      </button>
+      <button className="btn btn-success" onClick={handleClearSearch}>
+        Limpiar búsqueda
+      </button>
+      {isLoading ? (
+        <div className="spinner"></div>
+      ) : (
+        <>
+          <table className="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Venta #</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total</th>
+                <th scope="col">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentVentas.map((venta, index) => (
+                <tr key={venta.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <ul>
+                      {venta.productos.map((producto) => (
+                        <li key={producto.id} style={{ listStyleType: "none" }}>
+                          {/* <img src={producto.imagen} alt={producto.nombre} /> */}
+                          <p>{producto.nombre}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      {venta.productos.map((producto) => (
+                        <li
+                          key={producto.id}
+                          style={{
+                            listStyleType: "none",
+                            marginBottom: "15px",
+                          }}
+                        >
+                          {producto.precio}$
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      {venta.productos.map((producto) => (
+                        <li
+                          key={producto.id}
+                          style={{
+                            listStyleType: "none",
+                            marginBottom: "15px",
+                          }}
+                        >
+                          {producto.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>{venta.subtotal}$</td>
+                  <td>{venta.fecha && venta.fecha.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+
       {/* seccion de html para la paginacion */}
       <ul className="pagination">
-      <li className="page-item">
-        <button
-          className="page-link"
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </button>
-      </li>
-      {pageNumbers.map((number) => (
-        <li key={number} className="page-item">
+        <li className="page-item">
           <button
-            className={`page-link ${number === currentPage ? 'active' : ''}`}
-            onClick={() => paginate(number)}
+            className="page-link"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
           >
-            {number}
+            Anterior
           </button>
         </li>
-      ))}
-      <li className="page-item">
-        <button
-          className="page-link"
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === Math.ceil(ventas.length / itemsPerPage)}
-        >
-          Siguiente
-        </button>
-      </li>
-    </ul>
-
-     </div>
-  )
+        {pageNumbers.map((number) => (
+          <li key={number} className="page-item">
+            <button
+              className={`page-link ${number === currentPage ? "active" : ""}`}
+              onClick={() => paginate(number)}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+        <li className="page-item">
+          <button
+            className="page-link"
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === Math.ceil(ventas.length / itemsPerPage)}
+          >
+            Siguiente
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
 }

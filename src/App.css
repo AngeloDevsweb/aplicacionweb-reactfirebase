@@ -55,3 +55,30 @@ button {
   color: #fff;
   border: none;
 }
+
+/* Estilo del spinner */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007bff; /* Color del spinner */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite; /* Animación de rotación */
+  margin: 0 auto; /* Centra el spinner horizontalmente */
+}
+.spinner2 {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007bff; /* Color del spinner */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite; /* Animación de rotación */
+  margin-left: 400px; /* Centra el spinner horizontalmente */
+  margin-top: 150px;
+}
+
+/* Animación de rotación */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

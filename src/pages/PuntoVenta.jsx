@@ -9,6 +9,7 @@ const db = getFirestore(appFirebase);
 
 export default function PuntoVenta() {
   const [lista, setLista] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Inicialmente, se establece en true para mostrar el spinner de carga
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
@@ -34,6 +35,8 @@ export default function PuntoVenta() {
         setLista(docs);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getLista();
@@ -42,31 +45,40 @@ export default function PuntoVenta() {
   return (
     <div>
       <Navbar />
-
       <div className="row">
         <div className="col-md-8">
           {/* esta es la seccion para la lista de productos */}
-          
           <div className="row row-cols-1 row-cols-md-3 g-3 mt-4">
-            {lista.map((list) => (
-              <div key={list.id}>
-                <img src={list.imagen} alt="imagen" height={250} width="100%" />
-                <h3>{list.nombre}</h3>
-                <h5>{list.precio}$</h5>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => addToCart(list.id)}
-                >
-                  Agregar
-                </button>
-              </div>
-            ))}
+            {isLoading ? (
+              <div className="spinner"></div>
+            ) : (
+              <>
+                {lista.map((list) => (
+                  <div key={list.id}>
+                    <img
+                      src={list.imagen}
+                      alt="imagen"
+                      height={250}
+                      width="100%"
+                    />
+                    <h3>{list.nombre}</h3>
+                    <h5>{list.precio}$</h5>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => addToCart(list.id)}
+                    >
+                      Agregar
+                    </button>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
 
         <div className="col-md-4">
           {/* esta seccion es para visualizar la orden de compra */}
-          <OrdenCompra/>
+          <OrdenCompra />
         </div>
       </div>
     </div>
