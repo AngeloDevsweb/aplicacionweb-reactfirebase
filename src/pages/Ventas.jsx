@@ -54,27 +54,58 @@ export default function Ventas() {
     <div>
       <Navbar/>
       <h1>Lista de Ventas</h1>
-      <ul className='row row-cols-1 row-cols-md-3 g-3'>
-      {ventas.map((venta, index) => (
-          <li key={venta.id} className='card card-body'>
-            <h2>Venta #{index + 1}</h2>
-            <ul>
-              {venta.productos.map((producto) => (
-                <li key={producto.id}>
-                  {/* <img src={producto.imagen} alt={producto.nombre} /> */}
-                  <h3>{producto.nombre}</h3>
-                  <p>Precio: {producto.precio}</p>
-                  <p>Cantidad: {producto.quantity}</p>
-                </li>
-              ))}
-            </ul>
-            <p>Subtotal: {venta.subtotal}</p>
-            {venta.fecha && (
-              <p>Fecha: {venta.fecha.toLocaleString()}</p>
-            )}
-          </li>
-        ))}
-      </ul>
+      <table className='table table-hover table-bordered'>
+        <thead>
+          <tr>
+            <th scope="col">Venta #</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Total</th>
+            <th scope="col" >Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ventas.map((venta, index) => (
+            <tr key={venta.id}>
+              <td>{index + 1}</td>
+              <td>
+                <ul>
+                  {venta.productos.map((producto) => (
+                    <li key={producto.id} style={{listStyleType: "none"}}>
+                      {/* <img src={producto.imagen} alt={producto.nombre} /> */}
+                      <p>{producto.nombre}</p>
+                    </li>
+                  ))}
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  {venta.productos.map((producto) => (
+                    <li key={producto.id}  style={{listStyleType: "none", marginBottom:'15px'}}>
+                      {producto.precio}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  {venta.productos.map((producto) => (
+                    <li key={producto.id} style={{listStyleType: "none", marginBottom:'15px'}}>
+                      {producto.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+              <td>{venta.subtotal}$</td>
+              <td>
+                {venta.fecha && venta.fecha.toLocaleString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
      </div>
   )
 }
