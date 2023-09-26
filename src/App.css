@@ -1,4 +1,8 @@
+body{
+  background-color: #f7f7f7;
+}
 
+/* centrar formulario login */
 .centrar{
     display: flex;
     justify-content: center;
@@ -9,6 +13,81 @@
 
   margin-left: 450px;
   margin-right: 450px;
+}
+/* clase para punto venta */
+.tarjeta{
+  width: 250px; /* Cambia el ancho según tus necesidades */
+  height: 300px; /* Cambia la altura según tus necesidades */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Configura la sombra */
+}
+.imagen-pos{
+  display: block;
+  height: 180px;
+  width: 180px;
+  padding-top: 5px;
+  border-radius: 20px;
+  margin: 0 auto;
+}
+.titulo-comida{
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 400;
+  color: #272829;
+}
+.padre-precio-boton{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 5px;
+}
+.estilo-precio{
+  color: #272829;
+  font-weight: 400;
+  font-size: 27px;
+}
+.estilo-boton{
+  width: 40px; /* Define el ancho del botón */
+  height: 40px; /* Define la altura del botón */
+  border: none; /* Elimina el borde del botón */
+  border-radius: 50%; /* Hace que el botón sea redondo */
+  background-color: tomato; /* Color de fondo tomate */
+  color: white; /* Color de texto blanco */
+  font-size: 24px; /* Tamaño de fuente */
+  font-weight: bold; /* Texto en negrita */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse por encima */
+  outline: none; /* Elimina el contorno cuando se enfoca */
+  display: flex; /* Utiliza flexbox para centrar el contenido verticalmente */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  transition: background-color 0.3s; /* Agrega una transición de color suave */
+}
+.estilo-boton:hover {
+  background-color: darkred; /* Cambia el color de fondo al pasar el mouse por encima */
+}
+.titulo-orden{
+  text-align: center;
+  color: tomato;
+}
+.padre-orden{
+  display: flex;
+  justify-content: initial;
+  align-items: center;
+}
+.estilo-subtotal{
+  color: #272829;
+  font-size: 18px;
+  font-weight: 500;
+}
+.btn-guardarVenta{
+  background-color: tomato;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  margin-top: 18px;
+  transition: 0.3s;
+}
+.btn-guardarVenta:hover{
+  background-color: darkred;
 }
 
 /* clase modal */

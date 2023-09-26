@@ -54,21 +54,22 @@ export default function PuntoVenta() {
             ) : (
               <>
                 {lista.map((list) => (
-                  <div key={list.id}>
+                  <div key={list.id} className="tarjeta">
                     <img
                       src={list.imagen}
                       alt="imagen"
-                      height={250}
-                      width="100%"
+                      className="imagen-pos"
                     />
-                    <h3>{list.nombre}</h3>
-                    <h5>{list.precio}$</h5>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => addToCart(list.id)}
-                    >
-                      Agregar
-                    </button>
+                    <h5 className="titulo-comida">{list.nombre}</h5>
+                    <div className="padre-precio-boton">
+                      <h5 className="estilo-precio">{list.precio}$</h5>
+                      <button
+                        className="estilo-boton"
+                        onClick={() => addToCart(list.id)}
+                      >
+                        <span>+</span>
+                      </button>
+                    </div>
                   </div>
                 ))}
               </>

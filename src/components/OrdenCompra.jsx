@@ -70,27 +70,29 @@ export default function OrdenCompra() {
 
   return (
     <div>
-      <div className="card card-body mt-5">
-        <h3 className="text-center">Orden de compra</h3>
+      <div className="card card-body mt-5 shadow">
+        <h3 className="titulo-orden">Orden de compra</h3>
         {cartItems.map((item, index) => {
           const uniqueKey = `item-${index}`; // Genera una clave única
           return (
             <div key={uniqueKey}>
-              <p>
+              
+                <div className="padre-orden">
                 <button
-                  className="btn btn-danger"
+                  className="estilo-boton"
                   onClick={() => delToCart(item)}
                 >
-                  X
+                  <span>x</span>
                 </button>
                 <strong>{item.nombre}</strong>
-              </p>
-              <p style={{ marginLeft: "10px" }}>cantidad: {item.quantity}</p>
+                </div>
+              
+              <p style={{marginLeft:'20px'}}>cantidad: {item.quantity}</p>
             </div>
           );
         })}
 
-        <div>
+        <div className="estilo-subtotal">
           Subtotal: (
           {cartItems.reduce((a, c) => a + parseInt(c.quantity, 10), 0)}) : $
           {cartItems.reduce(
@@ -100,7 +102,7 @@ export default function OrdenCompra() {
         </div>
 
         {cartItems.length ? (
-          <button className="btn btn-success" onClick={saveSale}>
+          <button className="btn-guardarVenta" onClick={saveSale}>
             Guardar venta
           </button>
         ) : (
