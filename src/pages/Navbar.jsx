@@ -5,9 +5,9 @@ export default function Navbar() {
   const {logout} = useAuth()
   return (
     <div>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary ">
+      <nav className="navbar navbar-expand-lg menuNav">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/puntoVenta">
+          <Link className="brand-dev" to="/puntoVenta">
             SoftDev
           </Link>
           <button
@@ -23,27 +23,27 @@ export default function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
+              <li className="">
                 <Link
-                  className="nav-link active"
+                  className="enlaces"
                   aria-current="page"
                   to="/puntoVenta"
                 >
                   Punto de Venta
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/ventas">
+              <li className="">
+                <Link className="enlaces" to="/ventas">
                   Lista de Ventas
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/crearProducto">
+              <li className="">
+                <Link className="enlaces" to="/crearProducto">
                   Crear Producto
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/login" onClick={()=>logout()}>
+              <li className="">
+                <Link className="enlaces" to="/login" onClick={()=>logout()}>
                   Logout
                 </Link>
               </li>
