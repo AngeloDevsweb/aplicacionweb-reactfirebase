@@ -103,20 +103,20 @@ export default function Ventas() {
   return (
     <div>
       <Navbar />
-      <h1>Lista de Ventas</h1>
+      <h1 className="titulo-ventas">Lista de Ventas</h1>
       <input
         type="text"
-        className=""
+        className="input-buscar"
         placeholder="Buscar fecha (ej.'25/9/2023')"
         value={searchDate}
         onChange={(e) => {
           setSearchDate(e.target.value);
         }}
       />
-      <button className="btn btn-primary" onClick={handleSearch}>
+      <button className="boton-buscar" onClick={handleSearch}>
         Buscar
       </button>
-      <button className="btn btn-success" onClick={handleClearSearch}>
+      <button className="boton-limpiar" onClick={handleClearSearch}>
         Limpiar búsqueda
       </button>
       {isLoading ? (

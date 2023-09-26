@@ -118,6 +118,43 @@ body{
   background-color: darkred;
 }
 
+/* clases para lista de VENTAS */
+.titulo-ventas{
+  text-align: center;
+  color: tomato;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.input-buscar{
+  border: 1px solid slategray;
+  border-radius: 20px;
+  padding: 8px;
+  width: 250px;
+}
+.input-buscar:focus{
+  outline: 1px solid cornflowerblue;  
+  box-shadow: 0 0 10px cornflowerblue;  
+}
+.boton-buscar{
+  background-color: tomato;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  transition: 0.3s;
+}
+.boton-buscar:hover{
+  background-color: darkred;
+}
+.boton-limpiar{
+  background-color: #375E97;
+  border: none;
+  border-radius: 20px;
+  color: white;
+}
+.boton-limpiar:hover{
+  background-color: darkblue;
+}
+
 /* clase modal */
 /* Estilo para la ventana modal */
 .modalEliminar {
