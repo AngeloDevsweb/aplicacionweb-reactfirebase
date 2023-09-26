@@ -6,6 +6,7 @@ export default function CrearProducto() {
   return (
     <div>
       <Navbar />
+      <div style={{marginTop:"40px"}}>
       <div className="row">
         <div className="col-md-5">
           <CreateForm />
@@ -13,6 +14,7 @@ export default function CrearProducto() {
         <div className="col-md-7">
           <ListaProducts />
         </div>
+      </div>
       </div>
     </div>
   );

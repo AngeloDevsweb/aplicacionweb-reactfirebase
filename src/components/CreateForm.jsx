@@ -56,9 +56,9 @@ export default function CreateForm() {
   };
 
   return (
-    <div>
+    <div className="shadow-lg">
       <div className="card card-body">
-        <h3 className="text-center">Agregar comida</h3>
+        <h3 style={{textAlign:"center", color:"tomato", marginBottom:"18px"}}>Agregar comida</h3>
         <form onSubmit={guardarProduct}>
           <label>Nombre:</label>
           <div className="form-group">
@@ -98,7 +98,7 @@ export default function CreateForm() {
             className={
               habilitar
                 ? "btn btn-primary mt-3 form-control"
-                : "btn btn-primary mt-3 form-control disabled"
+                : "btn btn-secondary mt-3 form-control disabled"
             }
           >
             {habilitar ? "Guardar Producto" : "Llena los campos"}
